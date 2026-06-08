@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Murales y análisis social</title>
+    <style>
+        :root {
+            --fondo: #f6f0e8;
+            --texto: #25211d;
+            --principal: #8b3e2f;
+            --principal-oscuro: #5d291f;
+            --secundario: #d9a441;
+            --tarjeta: #fffaf3;
+            --borde: #e3d2bd;
+            --sombra: 0 18px 40px rgba(62, 39, 25, 0.14);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(217, 164, 65, 0.22), transparent 32rem),
+                linear-gradient(180deg, #fbf5ec 0%, var(--fondo) 100%);
+            color: var(--texto);
+            line-height: 1.7;
+        }
+
+        header {
+            min-height: 78vh;
+            display: grid;
+            place-items: center;
+            padding: 4rem 1.5rem;
+            text-align: center;
+            background:
+                linear-gradient(rgba(35, 20, 13, 0.72), rgba(35, 20, 13, 0.72)),
+                url("https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=1600&q=80") center/cover;
+            color: #ffffff;
+        }
+
+        .hero {
+            max-width: 980px;
+        }
+
+        .hero .eyebrow {
+            display: inline-block;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-size: 0.78rem;
+            color: var(--secundario);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: clamp(2.4rem, 7vw, 5.6rem);
+            line-height: 1;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            max-width: 780px;
+            margin: 0 auto 2rem;
+            color: #f6ead8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .button {
+            display: inline-block;
+            text-decoration: none;
+            padding: 0.85rem 1.25rem;
+            border-radius: 999px;
+            font-weight: 700;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .button.primary {
+            background: var(--secundario);
+            color: #2a2118;
+        }
+
+        .button.secondary {
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            color: #ffffff;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            padding: 1rem;
+            background: rgba(255, 250, 243, 0.95);
+            border-bottom: 1px solid var(--borde);
+            backdrop-filter: blur(12px);
+        }
+
+        nav a {
+            color: var(--principal-oscuro);
+            text-decoration: none;
+            font-weight: 700;
+            padding: 0.45rem 0.85rem;
+            border-radius: 999px;
+        }
+
+        nav a:hover {
+            background: #f0dfc8;
+        }
+
+        main {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 4rem 1.2rem;
+        }
+
+        .intro {
+            background: var(--tarjeta);
+            border: 1px solid var(--borde);
+            border-radius: 28px;
+            padding: clamp(1.4rem, 3vw, 2.4rem);
+            margin-bottom: 2rem;
+            box-shadow: var(--sombra);
+        }
+
+        .intro h2 {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            color: var(--principal-oscuro);
+            margin-bottom: 0.75rem;
+        }
+
+        .mural-section {
+            margin: 4rem 0;
+            background: rgba(255, 250, 243, 0.76);
+            border: 1px solid var(--borde);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: var(--sombra);
+        }
+
+        .section-header {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+            gap: 1.5rem;
+            align-items: stretch;
+            padding: clamp(1.25rem, 3vw, 2.2rem);
+            background: linear-gradient(135deg, #fff7eb 0%, #f4dfc5 100%);
+            border-bottom: 1px solid var(--borde);
+        }
+
+        .label {
+            display: inline-block;
+            color: var(--principal);
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            margin-bottom: 0.7rem;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3.4rem);
+            line-height: 1.05;
+            color: var(--principal-oscuro);
+        }
+
+        .image-placeholder {
+            min-height: 230px;
+            border: 3px dashed rgba(93, 41, 31, 0.42);
+            border-radius: 24px;
+            background:
+                linear-gradient(135deg, rgba(255,255,255,0.76), rgba(255,250,243,0.38)),
+                repeating-linear-gradient(45deg, rgba(139,62,47,0.05) 0 12px, transparent 12px 24px);
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: 1rem;
+            color: var(--principal-oscuro);
+        }
+
+        .image-placeholder img {
+            width: 100%;
+            height: 100%;
+            max-height: 310px;
+            object-fit: cover;
+            border-radius: 18px;
+            display: block;
+        }
+
+        .placeholder-icon {
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 0.85rem;
+            background: var(--principal);
+            color: #fff;
+            font-size: 2.1rem;
+            font-weight: 300;
+        }
+
+        figcaption strong,
+        figcaption span {
+            display: block;
+        }
+
+        figcaption span {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+            padding: clamp(1.25rem, 3vw, 2.2rem);
+        }
+
+        .analysis-card {
+            background: #ffffff;
+            border: 1px solid var(--borde);
+            border-radius: 22px;
+            padding: 1.2rem;
+        }
+
+        .analysis-card h3 {
+            color: var(--principal);
+            margin-bottom: 0.85rem;
+            font-size: 1rem;
+            letter-spacing: 0.04em;
+        }
+
+        .analysis-card p {
+            margin-bottom: 0.8rem;
+            text-align: justify;
+        }
+
+        .analysis-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1rem 3rem;
+            color: #6c5948;
+        }
+
+        @media (max-width: 920px) {
+            .section-header,
+            .analysis-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                min-height: 64vh;
+            }
+        }
+
+        @media (max-width: 560px) {
+            nav {
+                justify-content: flex-start;
+                overflow-x: auto;
+                flex-wrap: nowrap;
+            }
+
+            .analysis-card p {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="hero">
+            <span class="eyebrow">Análisis antropológico, sociológico y político</span>
+            <h1>Murales y memoria universitaria</h1>
+            <p>
+                Página web dedicada a la interpretación de murales como espacios de identidad,
+                resistencia, memoria colectiva y transformación social.
+            </p>
+            <div class="hero-buttons">
+                <a class="button primary" href="#contenido">Ver contenido</a>
+                <a class="button secondary" href="#orlando-fals-borda">Primer mural</a>
+            </div>
+        </div>
+    </header>
+
+    <nav aria-label="Navegación principal">
+        <a href="#orlando-fals-borda">ORLANDO FALS BORDA</a>
+<a href="#indigenas">INDÍGENAS</a>
+<a href="#rosilda-arias">ROSILDA ARIAS</a>
+<a href="#jesus-urueta">JESÚS URUETA</a>
+    </nav>
+
+    <main id="contenido">
+        <section class="intro">
+            <h2>Presentación</h2>
+            <p>
+                Este sitio organiza la información de los murales en cuatro bloques principales.
+                Cada bloque incluye un espacio visible para colocar la imagen correspondiente
+                y tres lecturas de análisis: antropológica, sociológica y política.
+            </p>
+        </section>
+
+        
+        <section class="mural-section" id="orlando-fals-borda">
+            <div class="section-header">
+                <div>
+                    <span class="label">Mural</span>
+                    <h2>ORLANDO FALS BORDA</h2>
+                </div>
+
+                <figure class="image-placeholder">
+                    <!-- Para colocar una imagen:
+                         1. Guarda la imagen en la carpeta "imagenes".
+                         2. Cambia este bloque por:
+                         <img src="imagenes/orlando-fals-borda.jpg" alt="Imagen del mural ORLANDO FALS BORDA">
+                    -->
+                    <div class="placeholder-icon">+</div>
+                    <figcaption>
+                        <strong>Espacio para imagen</strong>
+                        <span>Reemplaza este cuadro por la foto del mural</span>
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div class="analysis-grid">
+                
+                <article class="analysis-card">
+                    <h3>ANÁLISIS ANTROPOLÓGICO</h3>
+                    <p>El mural funciona como una representación antropológica del vínculo profundo entre la identidad caribeña y las formas de vida populares que Orlando Fals Borda estudió. La presencia de la icotea, animal emblemático en su obra, sintetiza la cosmovisión ribereña: resistencia, adaptación y una relación íntima con los ciclos de la naturaleza. Este motivo, mencionado por los estudiantes entrevistados, la icotea que se resguarda en su propia agua para sobrevivir al verano expresa cómo las comunidades campesinas, indígenas y pesqueras del Caribe han creado saberes desde la experiencia vivida, desde lo que Fals Borda llamó “sentipensar”: pensar con el corazón y sentir con la razón. Así, el mural no solo honra al académico, sino que visibiliza los universos culturales de los territorios que él investigó y defendió, transformándolos en símbolos estéticos y de identidad colectiva.</p>
+                </article>
+
+                <article class="analysis-card">
+                    <h3>ANÁLISIS SOCIOLÓGICO</h3>
+                    <p>En su dimensión sociológica, el mural reivindica la importancia de Fals Borda como fundador de la sociología latinoamericana comprometida y creador del primer programa de sociología del continente. La obra recuerda su método de Investigación Acción Participativa (IAP), basado en que el conocimiento no nace únicamente en la academia sino en la vida cotidiana de las comunidades. La misma elaboración y restauración del mural hecha por estudiantes y colectivos universitarios constituye un acto sociológico en sí mismo: una práctica comunitaria donde la memoria académica se vuelve un proyecto compartido. La noción de “sentipensar” pintada en grande reivindica una sociología que no es fría ni distante, sino una disciplina que dialoga con la emoción, el territorio, la cultura y la experiencia campesina. El mural se convierte así en un espacio pedagógico que recuerda a la comunidad universitaria que el conocimiento transformador surge del trabajo conjunto.</p>
+                </article>
+
+                <article class="analysis-card">
+                    <h3>ANÁLISIS POLÍTICO</h3>
+                    <p>En el plano político, el mural actúa como una declaración abierta de compromiso con la transformación social inspirada en el legado de Fals Borda. Los estudiantes resaltan que él fue un intelectual profundamente involucrado en la realidad del país y un mentor político de varias generaciones, especialmente en tiempos de violencia y cambio. La estrella pintada junto a la palabra “sentipensar” puede interpretarse como un símbolo de guía, un llamado a seguir un camino crítico y emancipador, idea coherente con su pensamiento. La decisión de restaurar el mural también es un gesto político: la comunidad universitaria afirma la necesidad de mantener viva una tradición de pensamiento que reconoce al campesinado como sujeto histórico, no como objeto de estudio. El mural, entonces, no es simplemente un homenaje, sino un acto de reafirmación de un proyecto político basado en participación, justicia social y construcción colectiva del país.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="mural-section" id="indigenas">
+            <div class="section-header">
+                <div>
+                    <span class="label">Mural</span>
+                    <h2>INDÍGENAS</h2>
+                </div>
+
+                <figure class="image-placeholder">
+                    <!-- Para colocar una imagen:
+                         1. Guarda la imagen en la carpeta "imagenes".
+                         2. Cambia este bloque por:
+                         <img src="imagenes/indigenas.jpg" alt="Imagen del mural INDÍGENAS">
+                    -->
+                    <div class="placeholder-icon">+</div>
+                    <figcaption>
+                        <strong>Espacio para imagen</strong>
+                        <span>Reemplaza este cuadro por la foto del mural</span>
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div class="analysis-grid">
+                
+                <article class="analysis-card">
+                    <h3>ANÁLISIS ANTROPOLÓGICO</h3>
+                    <p>El mural del indígena simboliza la conexión con las raíces ancestrales del país y la necesidad de valorar las tradiciones, lenguas y cosmovisiones de los pueblos originarios. Desde una lectura antropológica, este mural reinterpreta los símbolos culturales indígenas en un contexto moderno, mostrando cómo las comunidades nativas continúan presentes en la construcción de la identidad nacional. Es una forma de resistencia cultural frente a los procesos de colonización, globalización y homogenización que históricamente han intentado borrar su legado.</p>
+                </article>
+
+                <article class="analysis-card">
+                    <h3>ANÁLISIS SOCIOLÓGICO</h3>
+                    <p>En el plano sociológico, el mural promueve el diálogo intercultural dentro de la comunidad universitaria. Refleja el esfuerzo por construir una sociedad más plural e inclusiva, en la que las voces indígenas no sean vistas como “otras”, sino como parte esencial del tejido social. Su presencia en la universidad genera reflexión sobre el racismo estructural, la desigualdad educativa y la deuda histórica con los pueblos originarios, impulsando una conciencia colectiva de respeto y reconocimiento.</p>
+                </article>
+
+                <article class="analysis-card">
+                    <h3>ANÁLISIS POLÍTICO</h3>
+                    <p>Políticamente, el mural actúa como un instrumento de reivindicación de los derechos territoriales, culturales y sociales de los pueblos indígenas. Denuncia la exclusión histórica, la violencia y la marginalización que han sufrido, y plantea una exigencia de inclusión en los procesos de toma de decisiones del país. Dentro del entorno universitario, también representa la apertura hacia una educación intercultural que reconozca la diversidad étnica y cultural de Colombia como una riqueza y no como una diferencia que divide.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="mural-section" id="rosilda-arias">
+            <div class="section-header">
+                <div>
+                    <span class="label">Mural</span>
+                    <h2>ROSILDA ARIAS</h2>
+                </div>
+
+                <figure class="image-placeholder">
+                    <!-- Para colocar una imagen:
+                         1. Guarda la imagen en la carpeta "imagenes".
+                         2. Cambia este bloque por:
+                         <img src="imagenes/rosilda-arias.jpg" alt="Imagen del mural ROSILDA ARIAS">
+                    -->
+                    <div class="placeholder-icon">+</div>
+                    <figcaption>
+                        <strong>Espacio para imagen</strong>
+                        <span>Reemplaza este cuadro por la foto del mural</span>
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div class="analysis-grid">
+                
+                <article class="analysis-card">
+                    <h3>ANÁLISIS ANTROPOLÓGICO</h3>
+                    <p>Desde la antropología, este mural puede entenderse como una expresión simbólica de la memoria colectiva. El rostro de Rosildo Arias, plasmado en un espacio público, no solo representa a una persona sino a una figura que encarna la resistencia y la lucha social.</p>
+<p>El mural actúa como un objeto cultural y ritual contemporáneo, que reactiva la memoria de los ausentes o víctimas de violencia política, y convierte el espacio urbano en un territorio de significados compartidos.</p>
+<p>La frase “somos el sol que renace ante la impunidad” evoca una noción cíclica de la vida y la lucha, donde la comunidad reafirma su identidad colectiva frente a la pérdida. En términos antropológicos, este acto estético reconstruye lazos simbólicos entre el pasado, el dolor y la esperanza, y convierte la memoria en una práctica viva que refuerza la cohesión y pertenencia del grupo.</p>
+                </article>
+
+                <article class="analysis-card">
+                    <h3>ANÁLISIS SOCIOLÓGICO</h3>
+                    <p>Desde la sociología, este mural puede leerse como una forma de acción colectiva simbólica que visibiliza la relación entre memoria, identidad y conflicto social. Representa cómo los movimientos estudiantiles se apropian del espacio público para construir narrativas alternativas a la historia oficial, reivindicando a quienes han sido silenciados.</p>
+<p>El mural es también un dispositivo de socialización política, pues transmite valores de solidaridad, resistencia y justicia social a la comunidad universitaria y al público que lo observa. Sociológicamente, refleja la tensión entre el poder institucional (que tiende al olvido o la despolitización) y los movimientos sociales (que buscan recordar, denunciar y transformar).</p>
+                </article>
+
+                <article class="analysis-card">
+                    <h3>ANÁLISIS POLÍTICO</h3>
+                    <p>Políticamente, el mural es una denuncia visual contra la impunidad y una reivindicación de la memoria de las víctimas del conflicto social y político colombiano.</p>
+<p>Rosildo Arias, según los años inscritos, fue un joven asesinado en 1997 que posiblemente estuvo vinculado a movimientos estudiantiles o populares. La presencia de las siglas JUCO (Juventud Comunista Colombiana) y ACEU (Asociación Colombiana de Estudiantes Universitarios) sugiere que ello pertenecía a movimientos de izquierda o de activismo juvenil durante las agitadas décadas de los años 80.</p>
+<p>Por tanto, el mural es una intervención política en el espacio público, transforma un muro en un espacio de resistencia que exige justicia y cuestiona al Estado por la impunidad. Además, proyecta un mensaje de continuidad: los ideales por los que Rosildo luchó siguen vivos en las generaciones actuales, que “renacen” ante la represión.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="mural-section" id="jesus-urueta">
+            <div class="section-header">
+                <div>
+                    <span class="label">Mural</span>
+                    <h2>JESÚS URUETA</h2>
+                </div>
+
+                <figure class="image-placeholder">
+                    <!-- Para colocar una imagen:
+                         1. Guarda la imagen en la carpeta "imagenes".
+                         2. Cambia este bloque por:
+                         <img src="imagenes/jesus-urueta.jpg" alt="Imagen del mural JESÚS URUETA">
+                    -->
+                    <div class="placeholder-icon">+</div>
+                    <figcaption>
+                        <strong>Espacio para imagen</strong>
+                        <span>Reemplaza este cuadro por la foto del mural</span>
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div class="analysis-grid">
+                
+                <article class="analysis-card">
+                    <h3>ANÁLISIS ANTROPOLÓGICO</h3>
+                    <p>El mural dedicado a Jesús Urueta en la Universidad Popular del Cesar puede entenderse antropológicamente como un objeto simbólico que preserva y transmite la memoria colectiva del estudiantado. La representación artística del “Compa”, elaborada de manera autónoma por los estudiantes, funciona como un ritual de reconocimiento a un líder cuya figura se integra a la identidad cultural de la comunidad universitaria. Su imagen no solo recuerda sus acciones, como la organización de la “sopatón” para suplir la falta de alimentación, sino que además resignifica su cuerpo y su discapacidad como fuente de dignidad, ejemplo ético y fortaleza comunitaria. El mural se convierte así en un artefacto de unas prácticas de solidaridad, resistencia y pertenencia, elementos esenciales en la construcción cultural de este espacio académico.</p>
+                </article>
+
+                <article class="analysis-card">
+                    <h3>ANÁLISIS SOCIOLÓGICO</h3>
+                    <p>Sociológicamente, el mural revela tensiones estructurales dentro de la vida universitaria y expone las desigualdades que afectaban el acceso a la alimentación en la UPC. La iniciativa de Urueta evidencia la ausencia institucional en asuntos básicos y la importancia de la acción colectiva como herramienta para afrontar dichas carencias. Al surgir desde los estudiantes y ser legitimada por la institución solo después de su realización, el mural representa un acto de apropiación del espacio que fortalece la cohesión grupal y reconfigura las relaciones sociales internas. Además, la visibilización de un estudiante con movilidad reducida como referente central rompe imaginarios tradicionales, al mostrar que la agencia social y el liderazgo pueden surgir desde sujetos históricamente excluidos, convirtiéndolo en un símbolo de inclusión y representatividad.</p>
+                </article>
+
+                <article class="analysis-card">
+                    <h3>ANÁLISIS POLÍTICO</h3>
+                    <p>En términos políticos, el mural actúa como una declaración explícita de lucha y reivindicación. Su existencia subraya que el derecho a la alimentación y la mejora de las condiciones estudiantiles han sido resultado de procesos de exigencia, resistencia y confrontación con las instituciones, especialmente cuando la Gobernación y la propia universidad no respondían a las necesidades del alumnado. Urueta aparece como un héroe político popular que, desde la base estudiantil, gestionó proyectos, impulsó debates y presionó para la creación de un comedor digno, incluso cuando las primeras respuestas fueron negativas. Al inmortalizar su rostro en una pared universitaria, el movimiento estudiantil no solo honra su legado, sino que consolida un mensaje político intergeneracional: la lucha por los derechos no ha terminado, y el mural funciona como recordatorio permanente de que la transformación social dentro de la universidad nace de la organización y la persistencia colectiva.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Diseño web académico · Murales, memoria y pensamiento social</p>
+    </footer>
+</body>
+</html>
